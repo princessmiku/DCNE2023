@@ -1,3 +1,9 @@
+"""
+Hier findet man alle Registrierten feiertage in Deutschland mit eingetragenen Bundesland und
+ggf einer kleinen Beschreibung (Quelle ist ProSieben Galileo bisher)
+
+Die Liste der Bundesländer findet man separat nochmal in der 'Bundesländer.md'
+"""
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 
@@ -24,6 +30,14 @@ _bundesland_liste = [
 
 
 def calc_ostern(year: int) -> datetime:
+    """
+    Hiermit kann man die Osterfeiertage berechnen, diese basieren auf einer bestimmten Formel,
+    welche man Nachbilden kann.\n
+    Alle Osterfeiertage haben einen bestimmten abstand zu Ostersonntag, welcher hier berechnet wird.\n
+    Mehr informationen unter https://web.de/magazine/wissen/geschichte/datum-feiertage-ostern-berechnen-32192316
+    :param year: das Jahr in dem Ostern stattfindet
+    :return:
+    """
     a = year % 19
     b = year % 4
     c = year % 7
@@ -43,6 +57,10 @@ class Feiertag(ABC):
         self._description = "Keine Vorhanden"
         if bundesland_liste is None:
             bundesland_liste = []
+        if len(bundesland_liste) > 0:
+            for bundesland in bundesland_liste:
+                if bundesland not in _bundesland_liste:
+                    raise ValueError(f"Bundesland not found: {bundesland}. Check the bundesland list.")
         self._bundesland_liste = bundesland_liste.copy()
         self._current_year_date = self.date(_current_year)
         self._next_year_date = self.date(_current_year + 1)
@@ -351,7 +369,7 @@ class ZweiterWeihnachtstag_F(Feiertag):
 
 def get_feiertage_as_list():
     """
-    This function initializes the feiertage class for all new, so save it for performance
+    Die Funktion initialisiert alle Feiertage und gibt diese als liste zurück.
     :return:
     """
     return [

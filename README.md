@@ -1,6 +1,6 @@
 # Feiertags Kalender
 
-Dieses ist ein kleines Projekt zum Neujahres Event 2023 vom Discord Server DevCloud 
+Dieses ist ein kleines Projekt zum Neujahres Event 2023 vom Discord Server DevCloud.
 
 Der Sinn beim Event ist es zum Jahres Ende etwas kleines zu Coden, am besten passt es zum Thema.
 

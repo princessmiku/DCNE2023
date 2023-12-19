@@ -1,3 +1,7 @@
+"""
+Hier befindet sich die Möglichkeiten der Einstellungen für das Programm.
+Für eine einfache und ansehnliche Einstellungsmöglichkeit wird auf tkinter gesetzt als GUI.
+"""
 import difflib
 import json
 import os
@@ -108,14 +112,14 @@ def settings_gui():
         if settings.bundesland:
             bundesland_combo.set(settings.bundesland)
 
-    save_button = Button(root, text="Save Settings", command=save_settings)
+    save_button = Button(root, text="Speichern", command=save_settings)
     save_button.pack(pady=5, padx=10)
 
     def save_and_close():
         save_settings()
         root.quit()
 
-    save_close_button = Button(root, text="Save and Close Settings", command=save_and_close)
+    save_close_button = Button(root, text="Speichern & Schließen", command=save_and_close)
     save_close_button.pack(pady=5, padx=10)
 
     root.mainloop()
