@@ -74,7 +74,25 @@ class Settings:
             except KeyError:
                 pass
 
+    @property
+    def always_running(self) -> bool:
+        return self.raw_settings.get("always_running", False)
+
+    def set_always_running(self, always_running: bool):
+        if always_running:
+            self.raw_settings["always_running"] = True
+        else:
+            try:
+                self.raw_settings.pop("always_running")
+            except KeyError:
+                pass
+
     def save(self):
+        if 'bundesland' not in self.raw_settings:
+            try:
+                self.raw_settings.pop("only_my_bundesland")
+            except KeyError:
+                pass
         if len(self.raw_settings) > 0:
             with open('settings.json', mode='w') as f:
                 json.dump(self.raw_settings, f, indent=2, sort_keys=True)
@@ -106,10 +124,18 @@ def settings_gui():
     )
     only_my_bundesland_checkbutton.pack(pady=5, padx=10)
 
+    always_running_checkvar = BooleanVar()
+    always_running_checkvar.set(settings.always_running)
+    always_running_checkbutton = Checkbutton(
+        root, text="Programm dauerhaft laufen lassen", variable=always_running_checkvar
+    )
+    always_running_checkbutton.pack(pady=5, padx=10)
+
     def save_settings():
         try:
             settings.set_bundesland(bundesland_combo.get())
             settings.set_only_my_bundesland(only_my_bundesland_checkvar.get())
+            settings.set_always_running(always_running_checkvar.get())  # New code
             settings.save()
         except ValueError as e:
             mbox.showerror("Error", str(e))

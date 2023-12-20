@@ -66,6 +66,10 @@ class Feiertag(ABC):
         self._next_year_date = self.date(_current_year + 1)
 
     @property
+    def description(self) -> str:
+        return self._description
+
+    @property
     def current_year_date(self) -> datetime:
         return self._current_year_date
 
@@ -83,7 +87,7 @@ class Feiertag(ABC):
 
     @property
     def is_global(self):
-        return len(self._bundesland_liste) > 0
+        return len(self._bundesland_liste) == 0
 
     def is_for_me(self, bundesland: str):
         if len(self._bundesland_liste) == 0:
@@ -107,7 +111,7 @@ class Neujahr_F(Feiertag):
 class HeiligeDreiKoenige_F(Feiertag):
 
     def __init__(self):
-        super().__init__('Heilige Drei Könige')
+        super().__init__('Heilige Drei Könige', ['Baden-Württemberg', 'Bayern', 'Sachsen-Anhalt'])
         self._description = ("Am 6. Januar, dem Dreikönigstag, wird den drei Weisen Caspar, Melchior und Balthasar "
                              "gedacht, welche in der Bibel einem Stern folgend nach der Geburt Jesu Christi nach "
                              "Betlehem gekommen waren. Traditionell segnen an diesem Tag in den katholischen "
