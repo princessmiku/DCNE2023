@@ -26,12 +26,6 @@ Zum Öffnen der einstellungen muss die app.py mit dem Parameter ``settings`` ges
 python app.py settings
 ````
 
-**Wenn Settings.py**
-
-````bash
-python settings.py
-````
-
 Sobald die Einstellungen gespeichert werden, erstellt sich eine ``settings.json`` im gleichen Verzeichnis.
 Sollten alle Einstellungen standard sein, wird das Programm wird die Datei löschen.
 
@@ -43,11 +37,6 @@ auszuführenden Skripte.
 **Wenn app.py**
 ````bash
 python app.py
-````
-
-**Wenn runner.py**
-````bash
-python runner.py
 ````
 
 ### Autostart
@@ -69,7 +58,8 @@ Alle Feiertage können mit einer angegebenen Jahreszahl berechnet werden.
 Für die allgemeine Datumsverwaltung nutze ich das Datetime modul aus Python.
 
 ## App.py
-Wie man oben bei der Nutzung sieht, ist es möglich jedes Modul separat anzusteuern. Die App.py ist zusammen mit dem ``argument_handler.py`` nur eine Brücke für das Aufrufen.
+
+Die App.py dient der ansteuerung der Module, eine einzelne ansteuerung der Module war möglich, wurde aber nun aus Kosten der besseren Ordner Struktur entfernt.
 
 ---
 # LICENSE

@@ -158,8 +158,3 @@ def settings_gui():
     save_close_button.pack(pady=5, padx=10)
 
     root.mainloop()
-
-
-if __name__ == '__main__':
-    setup_app()
-    settings_gui()

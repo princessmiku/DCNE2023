@@ -62,8 +62,3 @@ class Runner:
 def start_runner():
     runner = Runner(SettingsHandler())
     runner.run()
-
-
-if __name__ == '__main__':
-    setup_app()
-    start_runner()
