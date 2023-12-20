@@ -68,6 +68,8 @@ Wie man oben bei der Nutzung sieht, ist es möglich jedes Modul separat anzusteu
 
 Das Projekt wird unter der MIT-License laufen.
 
+Das Bild ``calender.svg`` wurde lizenziert unter der MIT-Lizenz, gefunden habe ich es auf [SVGRepo](https://www.svgrepo.com/svg/337698/calendar-thirty-two).
+
 ---
 
 ## Das Projekt ist noch in entwicklung und nicht final, eine erste nutzbare Version wird durch einen GitHub Release veröffentlicht 
