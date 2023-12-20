@@ -2,7 +2,6 @@
 Hier befindet sich die Möglichkeiten der Einstellungen für das Programm.
 Für eine einfache und ansehnliche Einstellungsmöglichkeit wird auf tkinter gesetzt als GUI.
 """
-import ctypes
 import difflib
 import json
 import os
