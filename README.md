@@ -49,6 +49,14 @@ python app.py
 ````bash
 python runner.py
 ````
+
+### Autostart
+
+Lege das Skript in deinen autostart, um es automatisch beim System start starten zu lassen
+
+- [Windows 10/11 (MediaMarkt)](https://www.mediamarkt.de/de/content/themen-specials/schon-gewusst-wie/windows-10-autostart-programme-entfernen-hinzufuegen) unter dem Punkt ``Mithilfe von „Ausführen“``
+
+
 ---
 
 # Funktionsweise
