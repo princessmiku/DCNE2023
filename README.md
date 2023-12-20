@@ -18,7 +18,7 @@ Dieses Projekt habe ich hiermit in diesen Repo umgesetzt.
 *man muss sich mit dem Terminal im selben Ordner befinden wie die Python Skripte, um die Befehle, so weit wie unten angegeben, ausführen zu können*
 
 ### Öffnen der Einstellungen
-Zum Öffnen der einstellungen muss die app.py mit dem Parameter ``settings`` gestartet werden oder die ``settings.py`` direkt.
+Zum Öffnen der einstellungen muss die app.py mit dem Parameter ``settings`` gestartet werden.
 
 **Wenn Parameter**
 
@@ -26,13 +26,12 @@ Zum Öffnen der einstellungen muss die app.py mit dem Parameter ``settings`` ges
 python app.py settings
 ````
 
-Sobald die Einstellungen gespeichert werden, erstellt sich eine ``settings.json`` im gleichen Verzeichnis.
+Sobald die Einstellungen gespeichert werden, erstellt sich eine ``settings.json`` im gleichen Verzeichnis im Ordner `data`.
 Sollten alle Einstellungen standard sein, wird das Programm wird die Datei löschen.
 
 ### Allgemeines starten des Programms
-Um das Programm allgemein zu starten, kann man dieses entweder über die ``app.py`` oder über die ``runner.py`` machen.
-Damit das Programm mit den Einstellungen arbeiten kann muss die ``settings.json`` im selben Verzeichnis liegen wie die
-auszuführenden Skripte.
+Um das Programm allgemein zu starten muss man die ``app.py`` ausführen
+Damit das Programm mit den Einstellungen arbeiten kann, muss sich der ``data`` Ordner im selben verzeichnis befinden wie das auszuführende Skript.
 
 **Wenn app.py**
 ````bash
