@@ -74,7 +74,7 @@ class Settings:
     def save(self):
         if len(self.raw_settings) > 0:
             with open('settings.json', mode='w') as f:
-                json.dump(self.raw_settings, f)
+                json.dump(self.raw_settings, f, indent=2, sort_keys=True)
         elif os.path.isfile('settings.json'):
             os.remove('settings.json')
 
