@@ -9,8 +9,6 @@ from tkinter import Frame, StringVar, BooleanVar, Button, Checkbutton, Label, me
 from tkinter.ttk import Combobox
 from tkinter import Tk, Toplevel
 
-from app_settings import setup_app
-
 _bundesland_liste = [
     "Baden-Württemberg",
     "Bayern",
@@ -105,64 +103,76 @@ class SettingsHandler:
             os.remove(_file_path_settings)
 
 
-def open_settings_gui(master=None):
-    if master is None:
-        settings_window = Tk()
-    else:
-        settings_window = Toplevel(master)
-    settings_window.geometry("350x150")
-    settings_window.title("Feiertagskalender Settings")
-    settings_window.iconbitmap('./img/calender.ico')
+class SettingsGUI:
+    def __init__(self, master=None):
+        self.has_master = master is not None
+        self.settings = SettingsHandler()
+        self.bundesland_liste = _bundesland_liste.copy()  # Assuming this is a known list.
+        self.master = master
+        self.settings_window = None
+        self.bundesland_entry_text = StringVar()
+        self.only_my_bundesland_checkvar = BooleanVar()
+        self.always_running_checkvar = BooleanVar()
 
-    settings = SettingsHandler()
+    def init_window(self):
+        self.settings_window = Toplevel(self.master) if self.master else Tk()
+        self.settings_window.geometry("350x150")
+        self.settings_window.title("Feiertagskalender Settings")
+        self.settings_window.iconbitmap('./img/calender.ico')
 
-    bundesland_frame = Frame(settings_window)
-    bundesland_frame.pack(pady=5, padx=10)
+    def init_bundesland(self):
+        bundesland_frame = Frame(self.settings_window)
+        bundesland_frame.pack(pady=5, padx=10)
+        bundesland_label = Label(bundesland_frame, text="Mein Bundesland:")
+        bundesland_label.pack(side="left")
+        bundesland_combo = Combobox(bundesland_frame, value=self.bundesland_liste, textvariable=self.bundesland_entry_text)
+        if self.settings.bundesland:
+            bundesland_combo.set(self.settings.bundesland)
+        bundesland_combo.pack(side="left")
 
-    bundesland_label = Label(bundesland_frame, text="Mein Bundesland:")
-    bundesland_label.pack(side="left")
+    def init_only_my_bundesland(self):
+        self.only_my_bundesland_checkvar.set(self.settings.only_my_bundesland)
+        only_my_bundesland_checkbutton = Checkbutton(
+            self.settings_window, text="Nur mein Bundesland berücksichtigen", variable=self.only_my_bundesland_checkvar
+        )
+        only_my_bundesland_checkbutton.pack(pady=5)
 
-    bundesland_entry_text = StringVar()
-    bundesland_combo = Combobox(bundesland_frame, value=_bundesland_liste.copy(), textvariable=bundesland_entry_text)
-    if settings.bundesland:
-        bundesland_combo.set(settings.bundesland)
-    bundesland_combo.pack(side="left")
+    def init_always_running(self):
+        self.always_running_checkvar.set(self.settings.always_running)
+        always_running_checkbutton = Checkbutton(
+            self.settings_window, text="Programm dauerhaft laufen lassen", variable=self.always_running_checkvar
+        )
+        always_running_checkbutton.pack(pady=5)
 
-    only_my_bundesland_checkvar = BooleanVar()
-    only_my_bundesland_checkvar.set(settings.only_my_bundesland)
-    only_my_bundesland_checkbutton = Checkbutton(
-        settings_window, text="Nur mein Bundesland berücksichtigen", variable=only_my_bundesland_checkvar
-    )
-    only_my_bundesland_checkbutton.pack(pady=5)
-
-    always_running_checkvar = BooleanVar()
-    always_running_checkvar.set(settings.always_running)
-    always_running_checkbutton = Checkbutton(
-        settings_window, text="Programm dauerhaft laufen lassen", variable=always_running_checkvar
-    )
-    always_running_checkbutton.pack(pady=5)
-
-    def save_settings():
+    def save_settings(self):
         try:
-            settings.set_bundesland(bundesland_combo.get())
-            settings.set_only_my_bundesland(only_my_bundesland_checkvar.get())
-            settings.set_always_running(always_running_checkvar.get())
-            settings.save()
-            mbox.showinfo("Success", "Settings saved successfully!")
+            self.settings.set_bundesland(self.bundesland_entry_text.get())
+            self.settings.set_only_my_bundesland(self.only_my_bundesland_checkvar.get())
+            self.settings.set_always_running(self.always_running_checkvar.get())
+            self.settings.save()
+            if self.has_master:
+                mbox.showinfo("Success", "Einstellungen gespeichert, zum anzeigen bitte Programm neustarten")
+            else:
+                mbox.showinfo("Success", "Einstellungen gespeichert")
         except ValueError as e:
             mbox.showerror("Error", str(e))
 
-    button_frame = Frame(settings_window)
-    button_frame.pack(pady=5, padx=10)
+    def save_and_close(self):
+        self.save_settings()
+        self.settings_window.destroy()
 
-    save_button = Button(button_frame, text="Speichern", command=save_settings)
-    save_button.pack(side="right", padx=5)
+    def init_buttons(self):
+        button_frame = Frame(self.settings_window)
+        button_frame.pack(pady=5, padx=10)
+        save_button = Button(button_frame, text="Speichern", command=self.save_settings)
+        save_button.pack(side="right", padx=5)
+        save_close_button = Button(button_frame, text="Speichern & Schließen", command=self.save_and_close)
+        save_close_button.pack(side="right", padx=5)
 
-    def save_and_close():
-        save_settings()
-        settings_window.destroy()
-
-    save_close_button = Button(button_frame, text="Speichern & Schließen", command=save_and_close)
-    save_close_button.pack(side="right", padx=5)
-
-    settings_window.mainloop()
+    def run(self):
+        self.init_window()
+        self.init_bundesland()
+        self.init_only_my_bundesland()
+        self.init_always_running()
+        self.init_buttons()
+        self.settings_window.mainloop()
