@@ -9,7 +9,7 @@ import tkinter.messagebox as mbox
 from tkinter import Tk, Label, StringVar, BooleanVar, Checkbutton
 from tkinter import ttk, Button
 
-from app_informations import set_app_id
+from app_settings import setup_app
 
 _bundesland_liste = [
     "Baden-Württemberg",
@@ -30,12 +30,16 @@ _bundesland_liste = [
     "Thüringen"
 ]
 
+_file_path_settings = './data/settings.json'
 
-class Settings:
+
+class SettingsHandler:
 
     def __init__(self):
-        if os.path.isfile('settings.json'):
-            with open('settings.json', mode='r') as f:
+        if not os.path.exists(os.path.dirname(_file_path_settings)):
+            os.makedirs(os.path.dirname(_file_path_settings))
+        if os.path.isfile(_file_path_settings):
+            with open(_file_path_settings, mode='r') as f:
                 self.raw_settings = json.load(f)
         else:
             self.raw_settings = {}
@@ -92,20 +96,22 @@ class Settings:
                 self.raw_settings.pop("only_my_bundesland")
             except KeyError:
                 pass
+        if not os.path.exists(os.path.dirname(_file_path_settings)):
+            os.makedirs(os.path.dirname(_file_path_settings))
         if len(self.raw_settings) > 0:
-            with open('settings.json', mode='w') as f:
+            with open(_file_path_settings, mode='w') as f:
                 json.dump(self.raw_settings, f, indent=2, sort_keys=True)
-        elif os.path.isfile('settings.json'):
-            os.remove('settings.json')
+        elif os.path.isfile(_file_path_settings):
+            os.remove(_file_path_settings)
 
 
 def settings_gui():
     root = Tk()
     root.geometry("400x200")
     root.title("Feiertagskalender Settings")
-    root.iconbitmap('calender.ico')
+    root.iconbitmap('./img/calender.ico')
 
-    settings = Settings()
+    settings = SettingsHandler()
 
     bundesland_label = Label(root, text="Mein Bundesland:")
     bundesland_label.pack(pady=5, padx=10)
@@ -155,5 +161,5 @@ def settings_gui():
 
 
 if __name__ == '__main__':
-    set_app_id()
+    setup_app()
     settings_gui()

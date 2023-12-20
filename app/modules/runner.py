@@ -1,9 +1,9 @@
 import time
 from datetime import datetime
 
-from app_informations import set_app_id
-from feiertage import get_feiertage_as_list, Feiertag
-from settings_handler import Settings
+from app_settings import setup_app
+from modules.feiertage import get_feiertage_as_list, Feiertag
+from modules.settings_handler import SettingsHandler
 from notifypy import Notify
 
 
@@ -11,14 +11,17 @@ def get_default_notification() -> Notify:
     return Notify(
         default_notification_application_name="Feiertagskalender",
         default_notification_title="🕯️Es ist ein Feiertag!",
-        default_notification_icon="./calender.ico",
+        default_notification_icon="./img/calender.ico",
         default_notification_urgency='low'
     )
 
 
+_sleep_seconds = 180
+
+
 class Runner:
 
-    def __init__(self, settings: 'Settings'):
+    def __init__(self, settings: 'SettingsHandler'):
         self.settings = settings
         self.feiertage: list[Feiertag] = get_feiertage_as_list()
         self.started_at = datetime.now()
@@ -51,16 +54,16 @@ class Runner:
     def run(self):
         self.loop_feiertage()
         while self.settings.always_running:
-            time.sleep(180)
+            # time.sleep ist sehr effizient da es zu der Zeit dann keine systemleistung nutzt
+            time.sleep(_sleep_seconds)
             self.loop_feiertage()
 
 
 def start_runner():
-    runner = Runner(Settings())
+    runner = Runner(SettingsHandler())
     runner.run()
 
 
 if __name__ == '__main__':
-    set_app_id()
+    setup_app()
     start_runner()
-

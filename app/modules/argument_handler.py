@@ -1,7 +1,7 @@
 import sys
 
-from runner import Runner, start_runner
-from settings_handler import settings_gui, Settings
+from modules.runner import start_runner
+from modules.settings_handler import settings_gui
 
 
 def argument_handler():
