@@ -5,9 +5,9 @@ Für eine einfache und ansehnliche Einstellungsmöglichkeit wird auf tkinter ges
 import difflib
 import json
 import os
-import tkinter.messagebox as mbox
-from tkinter import Tk, Label, StringVar, BooleanVar, Checkbutton
-from tkinter import ttk, Button
+from tkinter import Frame, StringVar, BooleanVar, Button, Checkbutton, Label, messagebox as mbox
+from tkinter.ttk import Combobox
+from tkinter import Tk, Toplevel
 
 from app_settings import setup_app
 
@@ -105,56 +105,64 @@ class SettingsHandler:
             os.remove(_file_path_settings)
 
 
-def settings_gui():
-    root = Tk()
-    root.geometry("400x200")
-    root.title("Feiertagskalender Settings")
-    root.iconbitmap('./img/calender.ico')
+def open_settings_gui(master=None):
+    if master is None:
+        settings_window = Tk()
+    else:
+        settings_window = Toplevel(master)
+    settings_window.geometry("350x150")
+    settings_window.title("Feiertagskalender Settings")
+    settings_window.iconbitmap('./img/calender.ico')
 
     settings = SettingsHandler()
 
-    bundesland_label = Label(root, text="Mein Bundesland:")
-    bundesland_label.pack(pady=5, padx=10)
+    bundesland_frame = Frame(settings_window)
+    bundesland_frame.pack(pady=5, padx=10)
+
+    bundesland_label = Label(bundesland_frame, text="Mein Bundesland:")
+    bundesland_label.pack(side="left")
 
     bundesland_entry_text = StringVar()
-    bundesland_combo = ttk.Combobox(root, value=_bundesland_liste.copy(), textvariable=bundesland_entry_text)
+    bundesland_combo = Combobox(bundesland_frame, value=_bundesland_liste.copy(), textvariable=bundesland_entry_text)
     if settings.bundesland:
         bundesland_combo.set(settings.bundesland)
-    bundesland_combo.pack(pady=5, padx=10)
+    bundesland_combo.pack(side="left")
 
     only_my_bundesland_checkvar = BooleanVar()
     only_my_bundesland_checkvar.set(settings.only_my_bundesland)
     only_my_bundesland_checkbutton = Checkbutton(
-        root, text="Nur mein Bundesland berücksichtigen", variable=only_my_bundesland_checkvar
+        settings_window, text="Nur mein Bundesland berücksichtigen", variable=only_my_bundesland_checkvar
     )
-    only_my_bundesland_checkbutton.pack(pady=5, padx=10)
+    only_my_bundesland_checkbutton.pack(pady=5)
 
     always_running_checkvar = BooleanVar()
     always_running_checkvar.set(settings.always_running)
     always_running_checkbutton = Checkbutton(
-        root, text="Programm dauerhaft laufen lassen", variable=always_running_checkvar
+        settings_window, text="Programm dauerhaft laufen lassen", variable=always_running_checkvar
     )
-    always_running_checkbutton.pack(pady=5, padx=10)
+    always_running_checkbutton.pack(pady=5)
 
     def save_settings():
         try:
             settings.set_bundesland(bundesland_combo.get())
             settings.set_only_my_bundesland(only_my_bundesland_checkvar.get())
-            settings.set_always_running(always_running_checkvar.get())  # New code
+            settings.set_always_running(always_running_checkvar.get())
             settings.save()
+            mbox.showinfo("Success", "Settings saved successfully!")
         except ValueError as e:
             mbox.showerror("Error", str(e))
-        if settings.bundesland:
-            bundesland_combo.set(settings.bundesland)
 
-    save_button = Button(root, text="Speichern", command=save_settings)
-    save_button.pack(pady=5, padx=10)
+    button_frame = Frame(settings_window)
+    button_frame.pack(pady=5, padx=10)
+
+    save_button = Button(button_frame, text="Speichern", command=save_settings)
+    save_button.pack(side="right", padx=5)
 
     def save_and_close():
         save_settings()
-        root.quit()
+        settings_window.destroy()
 
-    save_close_button = Button(root, text="Speichern & Schließen", command=save_and_close)
-    save_close_button.pack(pady=5, padx=10)
+    save_close_button = Button(button_frame, text="Speichern & Schließen", command=save_and_close)
+    save_close_button.pack(side="right", padx=5)
 
-    root.mainloop()
+    settings_window.mainloop()
