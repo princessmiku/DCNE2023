@@ -20,8 +20,6 @@ Dieses Projekt habe ich hiermit in diesen Repo umgesetzt.
 ### Öffnen der Einstellungen
 Zum Öffnen der einstellungen muss die app.py mit dem Parameter ``settings`` gestartet werden.
 
-**Wenn Parameter**
-
 ````bash
 python app.py settings
 ````
@@ -33,14 +31,21 @@ Sollten alle Einstellungen standard sein, wird das Programm wird die Datei lösc
 Um das Programm allgemein zu starten muss man die ``app.py`` ausführen
 Damit das Programm mit den Einstellungen arbeiten kann, muss sich der ``data`` Ordner im selben verzeichnis befinden wie das auszuführende Skript.
 
-**Wenn app.py**
 ````bash
 python app.py
 ````
 
+### Starten der GUI
+Es ist möglich eine Allgemeine ansicht für die Feiertage anzuzeigen, dafür nutzt man den parameter ``gui``
+````bash
+python app.py gui
+````
+
+
 ### Autostart
 
-Lege das Skript in deinen autostart, um es automatisch beim System start starten zu lassen
+Lege das Skript in deinen autostart, um es automatisch beim System start starten zu lassen. Dabei ist zu beachten das
+man das Programm ohne Parameter startet.
 
 - [Windows 10/11 (MediaMarkt)](https://www.mediamarkt.de/de/content/themen-specials/schon-gewusst-wie/windows-10-autostart-programme-entfernen-hinzufuegen) unter dem Punkt ``Mithilfe von „Ausführen“``
 
