@@ -1,3 +1,4 @@
+from app_informations import set_app_id
 from settings_handler import Settings
 
 
@@ -16,5 +17,6 @@ def start_runner():
 
 
 if __name__ == '__main__':
+    set_app_id()
     start_runner()
 

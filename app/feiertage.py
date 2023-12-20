@@ -396,9 +396,8 @@ def get_feiertage_as_list():
 
 
 if __name__ == '__main__':
+    print("Beispielhafte darstellung aller Feiertage für dieses Jahr, welche registriert sind.\n")
     pri_str = ""
     for feiertag in get_feiertage_as_list():
-        if not feiertag.is_for_me('Niedersachsen'):
-            continue
-        pri_str += f"{feiertag.name:26}: {feiertag.next_year_date.strftime('%d.%m.%Y')}\n"
+        pri_str += f"{feiertag.name:26}: {feiertag.current_year_date.strftime('%d.%m.%Y')}\n"
     print(pri_str)

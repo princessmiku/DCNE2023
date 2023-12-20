@@ -2,12 +2,15 @@
 Hier befindet sich die Möglichkeiten der Einstellungen für das Programm.
 Für eine einfache und ansehnliche Einstellungsmöglichkeit wird auf tkinter gesetzt als GUI.
 """
+import ctypes
 import difflib
 import json
 import os
 import tkinter.messagebox as mbox
 from tkinter import Tk, Label, StringVar, BooleanVar, Checkbutton
 from tkinter import ttk, Button
+
+from app_informations import set_app_id
 
 _bundesland_liste = [
     "Baden-Württemberg",
@@ -83,6 +86,7 @@ def settings_gui():
     root = Tk()
     root.geometry("400x200")
     root.title("Feiertagskalender Settings")
+    root.iconbitmap('calender.ico')
 
     settings = Settings()
 
@@ -126,4 +130,5 @@ def settings_gui():
 
 
 if __name__ == '__main__':
+    set_app_id()
     settings_gui()
