@@ -1,6 +1,6 @@
 import os
 import webbrowser
-from tkinter import Tk, Label, Frame, Menu, N, S, W, E
+from tkinter import Tk, Label, Frame, Menu, N, S, W, E, Scrollbar, Canvas
 from tkinter import ttk
 from datetime import datetime
 from modules.feiertage import get_feiertage_as_list, Feiertag
@@ -35,6 +35,7 @@ class FeiertagGUI:
 
     def setup_window(self):
         self.root.geometry("750x500")
+        self.root.wm_minsize(750, 400)
         self.root.configure(bg='lightsteelblue')
         self.root.title("Feiertagskalender")
         self.root.iconbitmap('./img/calender.ico')
@@ -54,15 +55,35 @@ class FeiertagGUI:
         general_menu.add_separator()
         general_menu.add_command(label="Einstellungen", command=self.open_settings)
 
+    def create_scrollable_area(self, parent_frame):
+        canvas = Canvas(parent_frame)
+        scrollbar = Scrollbar(parent_frame, orient="vertical", command=canvas.yview)
+        frame_scrollable = Frame(canvas)
+
+        canvas.create_window((0, 0), window=frame_scrollable, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        parent_frame.pack(fill='both', expand=True)
+        return frame_scrollable
+
     def create_past_future_feiertag_frames(self):
         nb = ttk.Notebook(self.root)
         nb.grid(row=0, column=0, sticky=(N, S, W, E))
+
         past_frame = Frame(nb)
         future_frame = Frame(nb)
+
+        past_frame_scrollable = self.create_scrollable_area(past_frame)
+        future_frame_scrollable = self.create_scrollable_area(future_frame)
+
         nb.add(past_frame, text="Vergangene Feiertage")
         nb.add(future_frame, text="Zukünftige Feiertage")
         nb.select(1)
-        return past_frame, future_frame
+
+        return past_frame_scrollable, future_frame_scrollable
 
     def populate_feiertag_frames(self):
         Label(self.past_frame, text="Vergangene Feiertage:", font=('Arial', 13), fg='steelblue').pack(pady=5)
@@ -90,6 +111,7 @@ class FeiertagGUI:
         else:
             Label(current_frame, text="Heute ist kein Feiertag", font=('Arial', 12), anchor="center", bg="lightsteelblue").pack(
                 pady=5)
+
     def run(self):
         self.setup_window()
         self.create_menu()

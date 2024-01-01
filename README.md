@@ -13,7 +13,7 @@ Dieses Projekt habe ich hiermit in diesen Repo umgesetzt.
 ---
 
 # Nutzung
-*es sollte beachtet werden das Python so gestartet wird wie auf dem Host System es üblich ist, es kann dadurch abweichungen bei den Angaben geben*
+*es sollte beachtet werden das Python so gestartet wird wie auf dem Host System es üblich ist, es kann dadurch abweichungen bei den Angaben geben*__
 
 *man muss sich mit dem Terminal im selben Ordner befinden wie die Python Skripte, um die Befehle, so weit wie unten angegeben, ausführen zu können*
 
